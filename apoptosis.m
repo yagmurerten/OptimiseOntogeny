@@ -1,4 +1,4 @@
-function outflow=apoptosis(N,noisesd,threshold,apercent,T,O,D)
+function outflow=apoptosis(N,noisesd,threshold,apercent,H,K,T)
 
 deltaN_outflow=0*N; 
 % to go oncogenic layer by layer to calculate apoptosis per layer
@@ -6,7 +6,7 @@ deltaN_outflow=0*N;
 % calculate whether these cells that are detected are killed
 % remove from N
 
- for i=1:O % we go through each ongogenic layer
+ for i=1:K % we go through each ongogenic layer
     mutsteps=i-1; % this many mutational steps happened already
     % i.e. if the cell is at oncogenic layer dimension 1, it had zero
     % mutations
@@ -23,7 +23,7 @@ deltaN_outflow=0*N;
     % if there are more cells in that layer, we randomly pick which
     % specific ones are killed
     if killed > 0
-        killed_cells=reshape(ddistss(layertocheck(:)',killed),T,1,D);
+        killed_cells=reshape(ddistss(layertocheck(:)',killed),H,1,T);
         deltaN_outflow(:,i,:)=killed_cells;
     end
  end

@@ -11,7 +11,9 @@ function [temp_fit, successful,keep]=simulatestrategy(replicates,...
     for i=1:replicates
         % simulate the life of the organism and calculate fitness at the
         % end
-        [M_res,LS_res,DC_res,fitness,cell_types,killed_cells]=onelife(new_strategy,mort,cancer_danger,targetsize,withextmort,extmortthreshold,celldeath,nof_onco_steps);
+        [M_res,LS_res,DC_res,fitness,cell_types,killed_cells]=...
+            onelife(new_strategy,mort,cancer_danger,targetsize,...
+            withextmort,extmortthreshold,celldeath,nof_onco_steps);
         mat_times(i)=M_res;death_times(i)=LS_res;death_cause(i)=DC_res;
         ind=i*3-2;
         cell_dist(1,ind:ind+2)=cell_types;
@@ -26,13 +28,15 @@ function [temp_fit, successful,keep]=simulatestrategy(replicates,...
                 keep=true;
             end
             successful=false;mean_fitness=current_mean;
-            temp_fit=horzcat(new_strategy,mean_fitness,fitness_vals_temp',mat_times,death_times,death_cause,cell_dist,killed_dist);
+            temp_fit=horzcat(new_strategy,mean_fitness,fitness_vals_temp',...
+                mat_times,death_times,death_cause,cell_dist,killed_dist);
             break;
         end
     end
     if successful ~= false 
         keep=true;
         mean_fitness=calculatemeanfitness(fitness_vals_temp,replicates);
-        temp_fit=horzcat(new_strategy,mean_fitness,fitness_vals_temp',mat_times,death_times,death_cause,cell_dist,killed_dist);
+        temp_fit=horzcat(new_strategy,mean_fitness,fitness_vals_temp',...
+            mat_times,death_times,death_cause,cell_dist,killed_dist);
     end        
 end
